@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'views/get_start_screen/get_start_screen.dart';
 import 'views/login_screen/login_screen.dart';
 
 void main() {
@@ -18,8 +19,11 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+            theme: ThemeData(
+                scaffoldBackgroundColor: Color(0xFF212832)
+            ),
             debugShowCheckedModeBanner: false,
-            home: LoginScreen(),
+            home: GetStartScreen(),
           );
         });
   }
