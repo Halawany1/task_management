@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:task_management/core/constant/app_constant.dart';
 import 'package:task_management/core/error/validation.dart';
+import 'package:task_management/core/network/local.dart';
 import 'package:task_management/models/user_model.dart';
 
 part 'authentication_state.dart';
@@ -30,21 +32,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
     FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
-        password: password).then((value) {
-      FirebaseFirestore.instance.collection('users').doc(value.user!.uid)
-          .get().then((value) {
-            if(value.exists){
-              model = UserModel.fromJson(value.data()!);
-              print(model!.name);
-              emit(SuccessLoginState());
-            }else{
-              emit(FailedLoginState(value.data()!.toString()));
-            }
-
-      }).catchError((error) {
-          emit(FailedLoginState(error.toString()));
-      });
-
+        password: password).then((val) {
+      print(val.user!.uid);
+      CacheHelper.saveData(key: App.uId,
+                      value: val.user!.uid);
+      emit(SuccessLoginState());
+    }).catchError((error){
+      emit(FailedLoginState(error.toString()));
     });
   }
 
@@ -53,7 +47,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String name,
     required String email,
     required String password,
-    required String phone,
   }) {
     emit(LoadingSignupState());
     FirebaseAuth.instance.createUserWithEmailAndPassword(
