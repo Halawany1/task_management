@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_management/core/component/default_bottom_component.dart';
 import 'package:task_management/views/login_screen/login_screen.dart';
 
 class GetStartScreen extends StatelessWidget {
@@ -52,21 +53,12 @@ class GetStartScreen extends StatelessWidget {
               SizedBox(
                 height: 30.h,
               ),
-              MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
-                },
-                minWidth: double.infinity,
-                height: 55.h,
-                color: const Color(0xFFFED36A),
-                child: Text(
-                  "Let's Start",
-                  style: TextStyle(color: Colors.black, fontSize: 15.sp),
-                ),
-              )
+              BuildDefaultBottom(onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) =>
+                    const LoginScreen(),));
+              },
+                text: "Let's Start",)
             ],
           ),
         ),
