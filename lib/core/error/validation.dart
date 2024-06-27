@@ -16,10 +16,21 @@ class Validation{
       return 'Please enter your password';
     }
     // Additional validation can be added (e.g., minimum length)
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+    if (value.length < 7) {
+      return 'Password must be at least 7 characters';
     }
     return null;
   }
+    static String? validateName(String value){
+      if (value.isEmpty) {
+        return 'Please enter your name';
+      }
+    // Additional validation can be added (e.g., minimum length)
+    if (value.length < 5) {
+      return 'Name must be at least 5 characters';
+    }
+    return null;
+  }
+
 }
 

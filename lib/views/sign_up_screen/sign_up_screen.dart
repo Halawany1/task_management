@@ -8,31 +8,26 @@ import 'package:task_management/core/component/default_bottom_component.dart';
 import 'package:task_management/core/component/default_text_form_component.dart';
 import 'package:task_management/core/component/snak_bar_component.dart';
 import 'package:task_management/core/error/validation.dart';
-import 'package:task_management/views/sign_up_screen/sign_up_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
+    var nameController = TextEditingController();
     var passwordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
-      if(state is FailedLoginState){
-        showMessageResponse(message: state.error,
-            context: context, success: false);
-      }
-      if(state is SuccessLoginState){
-        showMessageResponse(message: 'Success',
-            context: context, success: true);
-      }
-      if(state is SuccessSignupState){
-        showMessageResponse(message: 'Sign Up Successfully, Login Now',
-            context: context, success: true);
-      }
-        },
+        if(state is FailedSignupState){
+          showMessageResponse(message: state.error,
+              context: context, success: false);
+        }
+        if(state is SuccessSignupState){
+          Navigator.pop(context);
+        }
+      },
       builder: (context, state) {
         var cubit = AuthenticationCubit.get(context);
         return Scaffold(
@@ -50,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('Welcome Back!',
+                          Text('Create your account',
                             style: GoogleFonts.
                             roboto(color: Colors.white,
                                 fontSize: 25.sp, fontWeight: FontWeight.w600),),
@@ -59,7 +54,16 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 12.h,),
                       BuildDefaultTextForm(
                           validator: (value) {
-                            return Validation.validateEmail(value!.trim());
+                            return Validation.validateName(value!);
+                          },
+                          controller: nameController,
+                          title: 'Full Name',
+                          hintText: 'Mohamed Elhalawany',
+                          icon: IconBroken.User),
+                      SizedBox(height: 15.h,),
+                      BuildDefaultTextForm(
+                          validator: (value) {
+                            return Validation.validateEmail(value!);
                           },
                           controller: emailController,
                           title: 'Email Address',
@@ -68,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 15.h,),
                       BuildDefaultTextForm(
                           validator: (value) {
-                            return Validation.validatePassword(value!.trim());
+                            return Validation.validatePassword(value!);
                           },
                           onTapSuffixIcon: () {
                             cubit.changeEyeVisibality();
@@ -78,32 +82,31 @@ class LoginScreen extends StatelessWidget {
                           obscureText: !cubit.eyeVisibality,
                           hintText: '****************',
                           suffixIcon:cubit.eyeVisibality?
-                              Icons.visibility_outlined
+                          Icons.visibility_outlined
                               :
                           Icons.visibility_off_outlined,
                           icon: IconBroken.Lock),
                       SizedBox(height: 30.h,),
-                      state is LoadingLoginState?
+                      state is LoadingSignupState?
                       const Center(child: CircularProgressIndicator(color: Color(0xFFFED36A),))
-                      :BuildDefaultBottom(onPressed: () {
+                          : BuildDefaultBottom(onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          cubit.userLogin(email: emailController.text,
+                          cubit.userSignUp(email: emailController.text,
+                              name: nameController.text,
                               password: passwordController.text);
                         }
                       },
-                          text: "Log In"),
+                          text: "Sign Up"),
                       SizedBox(height: 22.h,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Don\'t have an account?',
+                          Text('Already have an account?',
                             style: GoogleFonts.roboto(
                                 color: Colors.white, fontSize: 15.sp),),
                           TextButton(onPressed: () {
-                            cubit.eyeVisibality=false;
-                           Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                           const SignUpScreen(),));
-                          }, child: Text('Sign Up',
+                            Navigator.pop(context);
+                          }, child: Text('Log In',
                             style: GoogleFonts.roboto(color:
                             Color(0xFFFED36A), fontSize: 15.sp),))
                         ],)
