@@ -52,6 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
   void getAllTasks() {
     emit(LoadingGetAllTasksState());
     tasks.clear();
+    doneTasks.clear();
     firestore
         .collection('users')
         .doc(auth.currentUser!.uid)
@@ -74,7 +75,7 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  void updateTaskDone(String uuid) {
+  void updateTaskDone(String uuid,bool value) {
     emit(LoadingUpdateTaskState());
     firestore
         .collection('users')
@@ -82,13 +83,30 @@ class HomeCubit extends Cubit<HomeState> {
         .collection('tasks')
         .doc(uuid)
         .update({
-      'isDon': true,
+      'isDon': value,
     }).then((value) {
       emit(SuccessUpdateTaskState());
       getAllTasks();
     }).catchError((error) {
       print(error.toString());
       emit(FailedUpdateTaskState());
+    });
+  }
+
+  void deleteTask(String uuid) {
+    emit(LoadingDeleteTaskState());
+    firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('tasks')
+        .doc(uuid)
+        .delete()
+        .then((value) {
+      emit(SuccessDeleteTaskState());
+      getAllTasks();
+    }).catchError((error) {
+     // print(error.toString());
+      emit(FailedDeleteTaskState());
     });
   }
 }

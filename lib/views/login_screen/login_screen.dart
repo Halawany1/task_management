@@ -59,6 +59,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 12.h,),
                       BuildDefaultTextForm(
+                        maxLength: 120,
                           validator: (value) {
                             return Validation.validateEmail(value!.trim());
                           },
@@ -68,6 +69,7 @@ class LoginScreen extends StatelessWidget {
                           icon: IconBroken.User),
                       SizedBox(height: 15.h,),
                       BuildDefaultTextForm(
+                          maxLength: 120,
                           validator: (value) {
                             return Validation.validatePassword(value!.trim());
                           },

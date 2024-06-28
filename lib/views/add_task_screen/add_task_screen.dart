@@ -42,35 +42,40 @@ class AddTaskScreen extends StatelessWidget {
             padding: EdgeInsets.all(20.h),
             child: Form(
               key: formKey,
-              child: Column(
-                children: [
-                  BuildDefaultTextForm(title: 'Title',
-                      controller: titleController,
-                      boldTitle: true,
-                      hintText: 'Enter your task title',
-                      validator: (value) {
-                        return Validation.validateTitle(value!);
-                      }),
-                  SizedBox(height: 25.h,),
-                  BuildDefaultTextForm(title: 'Description',
-                      controller: descriptionController,
-                      boldTitle: true,
-                      hintText: 'Enter your task description',
-                      maxLines: 4,
-                      validator: (value) {
-                        return Validation.validateDescription(value!);
-                      }),
-                  SizedBox(height: 50.h,),
-                  state is LoadingAddTaskState ?
-                  const Center(child: CircularProgressIndicator(
-                    color: Color(0xFFFED36A),
-                  )) :BuildDefaultBottom(onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      cubit.addTask(description: descriptionController.text,
-                          title: titleController.text);
-                    }
-                  }, text: 'Add Task',)
-                ],
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    BuildDefaultTextForm(title: 'Title',
+                        controller: titleController,
+                        maxLength: 20,
+                        boldTitle: true,
+                        hintText: 'Enter your task title',
+                        validator: (value) {
+                          return Validation.validateTitle(value!);
+                        }),
+                    SizedBox(height: 25.h,),
+                    BuildDefaultTextForm(title: 'Description',
+                        maxLength: 800,
+                        controller: descriptionController,
+                        boldTitle: true,
+                        hintText: 'Enter your task description',
+                        maxLines: 4,
+                        validator: (value) {
+                          return Validation.validateDescription(value!);
+                        }),
+                    SizedBox(height: 50.h,),
+                    state is LoadingAddTaskState ?
+                    const Center(child: CircularProgressIndicator(
+                      color: Color(0xFFFED36A),
+                    )) :BuildDefaultBottom(onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        cubit.addTask(description: descriptionController.text,
+                            title: titleController.text);
+                      }
+                    }, text: 'Add Task',)
+                  ],
+                ),
               ),
             ),
           ),);
