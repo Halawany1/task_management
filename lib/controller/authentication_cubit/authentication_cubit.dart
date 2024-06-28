@@ -23,7 +23,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(ChangeEyeVisibalityState());
   }
 
-
+  UserModel? userModel;
   void userLogin({
     required String email,
     required String password,
@@ -33,10 +33,18 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password).then((val) {
-      print(val.user!.uid);
-      CacheHelper.saveData(key: App.uId,
-                      value: val.user!.uid);
-      emit(SuccessLoginState());
+      FirebaseFirestore.instance.collection('users')
+          .doc(val.user!.uid)
+          .get().then((value) {
+            //print(value.data());
+            userModel = UserModel.fromJson(value.data()!);
+            CacheHelper.saveData(key: App.uId,
+                value: val.user!.uid);
+            CacheHelper.saveData(key: App.userName,
+                value: userModel!.name);
+
+            emit(SuccessLoginState());
+      });
     }).catchError((error){
       String errorMessage;
       if (error is FirebaseAuthException) {
@@ -58,6 +66,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password).then((value) {
+
       userCreate(
           email: email,
           name: name,
@@ -93,6 +102,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         emit(FailedCreateState(error.toString()));
       });
     }
+
    String getErrorMessage(FirebaseAuthException error) {
     switch (error.code) {
       case 'invalid-email':
