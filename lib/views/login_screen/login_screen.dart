@@ -8,6 +8,7 @@ import 'package:task_management/core/component/default_bottom_component.dart';
 import 'package:task_management/core/component/default_text_form_component.dart';
 import 'package:task_management/core/component/snak_bar_component.dart';
 import 'package:task_management/core/error/validation.dart';
+import 'package:task_management/views/layout_screen/layout_screen.dart';
 import 'package:task_management/views/sign_up_screen/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -25,8 +26,8 @@ class LoginScreen extends StatelessWidget {
             context: context, success: false);
       }
       if(state is SuccessLoginState){
-        showMessageResponse(message: 'Success',
-            context: context, success: true);
+       Navigator.pushReplacement(context,
+           MaterialPageRoute(builder: (context) => const LayoutScreen(),));
       }
       if(state is SuccessSignupState){
         showMessageResponse(message: 'Sign Up Successfully, Login Now',
