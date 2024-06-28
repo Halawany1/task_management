@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_management/controller/authentication_cubit/authentication_cubit.dart';
+import 'package:task_management/controller/home_cubit/home_cubit.dart';
 import 'package:task_management/controller/layout_cubit/layout_cubit.dart';
 import 'package:task_management/core/constant/app_constant.dart';
+import 'package:task_management/core/helper/my_bloc_observer.dart';
 import 'package:task_management/core/network/local.dart';
 import 'package:task_management/views/layout_screen/layout_screen.dart';
 import 'views/get_start_screen/get_start_screen.dart';
@@ -13,7 +15,8 @@ import 'views/login_screen/login_screen.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-  await CacheHelper.deleteAllData();
+  Bloc.observer = MyBlocObserver();
+  //await CacheHelper.deleteAllData();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyBluuYA-VhCTRqWy9a6TyxUEzAF9fryOVk",//  ==   current_key in google-services.json file
@@ -42,8 +45,12 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthenticationCubit(),
-        ),   BlocProvider(
+        ),
+        BlocProvider(
           create: (context) => LayoutCubit(),
+        ),
+        BlocProvider(
+          create: (context) => HomeCubit()..getAllTasks(),
         ),
       ],
       child: ScreenUtilInit(
@@ -53,6 +60,12 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             return MaterialApp(
               theme: ThemeData(
+                appBarTheme: AppBarTheme(
+                  iconTheme: IconThemeData(
+                    color: Colors.white
+                  ),
+                  backgroundColor: Color(0xFF212832)
+                ),
                   scaffoldBackgroundColor: Color(0xFF212832)
               ),
               debugShowCheckedModeBanner: false,

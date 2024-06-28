@@ -32,5 +32,24 @@ class Validation{
     return null;
   }
 
+  static String? validateTitle(String title) {
+    if (title.isEmpty) {
+      return 'Title cannot be empty.';
+    }
+    if (title.length > 100) {
+      return 'Title cannot be more than 100 characters.';
+    }
+    return null;
+  }
+
+  static String? validateDescription(String description) {
+    if (description.isEmpty) {
+      return 'Description cannot be empty.';
+    }
+    if (description.length > 500) {
+      return 'Description cannot be more than 500 characters.';
+    }
+    return null;
+  }
 }
 
