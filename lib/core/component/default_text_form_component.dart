@@ -9,6 +9,7 @@ class BuildDefaultTextForm extends StatelessWidget {
      this.hintText,
     required this.controller,
     required this.validator,
+    required this.maxLength,
      this.onTapSuffixIcon,
      this.obscureText=false,
      this.maxLines=1,
@@ -25,6 +26,7 @@ class BuildDefaultTextForm extends StatelessWidget {
   final VoidCallback ?onTapSuffixIcon;
   final int maxLines;
   final bool boldTitle;
+  final int maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,6 @@ class BuildDefaultTextForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title,
-
           style:
         GoogleFonts.roboto(
             fontWeight:boldTitle?FontWeight.bold: null,
@@ -41,6 +42,7 @@ class BuildDefaultTextForm extends StatelessWidget {
         ),
         SizedBox(height: 10.h,),
         TextFormField(
+          maxLength: maxLength,
           cursorColor: Colors.white,
           obscureText: obscureText,
           obscuringCharacter: '●',

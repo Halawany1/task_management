@@ -26,16 +26,20 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
         return Scaffold(
-            body: state is LoadingGetAllTasksState
+            body: state is LoadingGetAllTasksState||
+            state is LoadingDeleteTaskState
                 ? const Center(
                     child: CircularProgressIndicator(
                       color: Color(0xFFFED36A),
                     ),
                   )
-                : SafeArea(
+                :
+
+            SafeArea(
                     child: Padding(
                       padding: EdgeInsets.all(18.h),
-                      child: SingleChildScrollView(
+                      child:
+                      SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
                           children: [
@@ -74,59 +78,72 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(
                               height: 20.h,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'All Tasks',
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16.sp),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    Dismissible(
-                                      key: Key(index.toString()),
-                                      background: Container(
-                                        color: Colors.red,
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 30.r,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      secondaryBackground: Container(
-                                        color: Colors.red,
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 30.r,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      onDismissed: (direction) {},
-                                      child: BuildCardTask(
-                                        title: cubit.tasks[index].title,
-                                        description:cubit.tasks[index].description,
-                                        isDon: cubit.tasks[index].isDon,
-                                        time:cubit.tasks[index].time,
-                                        onChangeUpdateTask: (value) {
-                                          cubit.updateTaskDone(cubit.tasks[index].id,
-                                              value!);
-                                        },
-                                      ),
-                                    ),
-                                separatorBuilder: (context, index) => SizedBox(
-                                      height: 20.h,
-                                    ),
-                                itemCount: cubit.tasks.length)
+
+                         if(cubit.tasks.isEmpty)
+                           Padding(
+                             padding:  EdgeInsets.symmetric(vertical:80.h),
+                             child: Text('No Tasks Yet, Add New Tasks',
+                               style: GoogleFonts.poppins(color: Colors.white,
+                                   fontWeight: FontWeight.w600,fontSize: 16.sp),),
+                           ),
+                            if(cubit.tasks.isNotEmpty)
+                         Column(children: [
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: [
+                               Text(
+                                 'All Tasks',
+                                 style: GoogleFonts.poppins(
+                                     color: Colors.white,
+                                     fontWeight: FontWeight.w600,
+                                     fontSize: 16.sp),
+                               ),
+                             ],
+                           ),
+                           SizedBox(
+                             height: 15.h,
+                           ),
+                           ListView.separated(
+                               shrinkWrap: true,
+                               physics: const NeverScrollableScrollPhysics(),
+                               itemBuilder: (context, index) =>
+                                   Dismissible(
+                                     key: Key(index.toString()),
+                                     background: Container(
+                                       color: Colors.red,
+                                       child: Icon(
+                                         Icons.delete,
+                                         size: 30.r,
+                                         color: Colors.white,
+                                       ),
+                                     ),
+                                     secondaryBackground: Container(
+                                       color: Colors.red,
+                                       child: Icon(
+                                         Icons.delete,
+                                         size: 30.r,
+                                         color: Colors.white,
+                                       ),
+                                     ),
+                                     onDismissed: (direction) {
+                                       cubit.deleteTask(cubit.tasks[index].id);
+                                     },
+                                     child: BuildCardTask(
+                                       title: cubit.tasks[index].title,
+                                       description:cubit.tasks[index].description,
+                                       isDon: cubit.tasks[index].isDon,
+                                       time:cubit.tasks[index].time,
+                                       onChangeUpdateTask: (value) {
+                                         cubit.updateTaskDone(cubit.tasks[index].id,
+                                             value!);
+                                       },
+                                     ),
+                                   ),
+                               separatorBuilder: (context, index) => SizedBox(
+                                 height: 20.h,
+                               ),
+                               itemCount: cubit.tasks.length)
+                         ],)
                           ],
                         ),
                       ),

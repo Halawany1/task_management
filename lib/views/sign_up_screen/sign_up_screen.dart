@@ -53,6 +53,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 12.h,),
                       BuildDefaultTextForm(
+                        maxLength: 80,
                           validator: (value) {
                             return Validation.validateName(value!);
                           },
@@ -62,6 +63,7 @@ class SignUpScreen extends StatelessWidget {
                           icon: IconBroken.User),
                       SizedBox(height: 15.h,),
                       BuildDefaultTextForm(
+                          maxLength: 120,
                           validator: (value) {
                             return Validation.validateEmail(value!);
                           },
@@ -71,6 +73,7 @@ class SignUpScreen extends StatelessWidget {
                           icon: IconBroken.User),
                       SizedBox(height: 15.h,),
                       BuildDefaultTextForm(
+                        maxLength: 120,
                           validator: (value) {
                             return Validation.validatePassword(value!);
                           },

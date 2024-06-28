@@ -93,5 +93,20 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-
+  void deleteTask(String uuid) {
+    emit(LoadingDeleteTaskState());
+    firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('tasks')
+        .doc(uuid)
+        .delete()
+        .then((value) {
+      emit(SuccessDeleteTaskState());
+      getAllTasks();
+    }).catchError((error) {
+     // print(error.toString());
+      emit(FailedDeleteTaskState());
+    });
+  }
 }
