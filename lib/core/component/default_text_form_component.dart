@@ -11,25 +11,33 @@ class BuildDefaultTextForm extends StatelessWidget {
     required this.validator,
      this.onTapSuffixIcon,
      this.obscureText=false,
+     this.maxLines=1,
      this.suffixIcon,
-    required this.icon});
+     this.boldTitle=false,
+     this.icon});
   final String title;
   final String ?hintText;
   final TextEditingController controller;
-  final IconData icon;
+  final IconData ?icon;
   final IconData ?suffixIcon;
   final bool obscureText;
   final String? Function(String?)? validator;
   final VoidCallback ?onTapSuffixIcon;
+  final int maxLines;
+  final bool boldTitle;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,style:
-        GoogleFonts.roboto(color: const Color(0xFF8CAAB9),
-            fontSize: 14.sp),
+        Text(title,
+
+          style:
+        GoogleFonts.roboto(
+            fontWeight:boldTitle?FontWeight.bold: null,
+            color: boldTitle?Colors.white:const Color(0xFF8CAAB9),
+            fontSize:boldTitle? 16.sp: 14.sp),
         ),
         SizedBox(height: 10.h,),
         TextFormField(
@@ -42,6 +50,7 @@ class BuildDefaultTextForm extends StatelessWidget {
               fontSize: 15.sp
           ),
           validator: validator,
+          maxLines: maxLines,
           decoration: InputDecoration(
             errorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
@@ -60,7 +69,8 @@ class BuildDefaultTextForm extends StatelessWidget {
             border: const OutlineInputBorder(
                 borderSide: BorderSide.none
             ),
-            prefixIcon: Icon(icon,color: Colors.white,),
+            prefixIcon:icon!=null?
+            Icon(icon,color: Colors.white,):null,
             suffixIcon: suffixIcon!=null?
             GestureDetector(
                 onTap:onTapSuffixIcon ,

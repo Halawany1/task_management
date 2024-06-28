@@ -24,6 +24,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   UserModel? userModel;
+
   void userLogin({
     required String email,
     required String password,
