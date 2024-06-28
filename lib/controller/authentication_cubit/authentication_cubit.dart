@@ -38,7 +38,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
                       value: val.user!.uid);
       emit(SuccessLoginState());
     }).catchError((error){
-      emit(FailedLoginState(error.toString()));
+      String errorMessage;
+      if (error is FirebaseAuthException) {
+       errorMessage= getErrorMessage(error);
+      } else {
+        errorMessage = 'An error occurred. Please try again.';
+      }
+      emit(FailedLoginState(errorMessage));
     });
   }
 
@@ -59,8 +65,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       );
       emit(SuccessSignupState());
     }).catchError((error) {
-      print(error.toString());
-      emit(FailedSignupState(error.toString()));
+      String errorMessage;
+      if (error is FirebaseAuthException) {
+        errorMessage= getErrorMessage(error);
+      } else {
+        errorMessage = 'An error occurred. Please try again.';
+      }
+      emit(FailedSignupState(errorMessage));
     });
   }
     void userCreate({
@@ -82,5 +93,20 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         emit(FailedCreateState(error.toString()));
       });
     }
-
+   String getErrorMessage(FirebaseAuthException error) {
+    switch (error.code) {
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'user-disabled':
+        return 'The user has been disabled.';
+      case 'user-not-found':
+        return 'No user found for the given email.';
+      case 'wrong-password':
+        return 'Wrong password provided.';
+      case 'invalid-credential':
+        return 'The credential data is malformed or has expired.';
+      default:
+        return 'An undefined error occurred.';
+    }
+  }
 }
