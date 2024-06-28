@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/controller/home_cubit/home_cubit.dart';
+import 'package:task_management/core/component/card_task_component.dart';
 import 'package:task_management/core/component/snak_bar_component.dart';
 import 'package:task_management/core/constant/app_constant.dart';
 import 'package:task_management/core/network/local.dart';
@@ -91,7 +92,8 @@ class HomeScreen extends StatelessWidget {
                             ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) => Dismissible(
+                                itemBuilder: (context, index) =>
+                                    Dismissible(
                                       key: Key(index.toString()),
                                       background: Container(
                                         color: Colors.red,
@@ -110,82 +112,15 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       ),
                                       onDismissed: (direction) {},
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: EdgeInsets.all(14.h),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12.r),
-                                          color: const Color(0xFF455A64),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  cubit.tasks[index].title,
-                                                  style: GoogleFonts.poppins(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 16.sp),
-                                                ),
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: false,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3.r),
-                                                    ),
-                                                    side: BorderSide(
-                                                        color: Colors.grey,
-                                                        width: 1.5.w),
-                                                    checkColor: Colors.white,
-                                                    fillColor: cubit
-                                                            .tasks[index].isDon
-                                                        ? MaterialStateProperty
-                                                            .all(Colors.blue)
-                                                        : null,
-                                                    activeColor: Colors.blue,
-                                                    onChanged: (value) {
-                                                      cubit.updateTaskDone(cubit
-                                                          .tasks[index].id);
-                                                    },
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5.h,
-                                            ),
-                                            Text(
-                                              cubit.tasks[index].description,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontSize: 12.sp),
-                                            ),
-                                            SizedBox(
-                                              height: 5.h,
-                                            ),
-                                            Text(
-                                              'Date Time: ${cubit.tasks[index].time}',
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp),
-                                            ),
-                                          ],
-                                        ),
+                                      child: BuildCardTask(
+                                        title: cubit.tasks[index].title,
+                                        description:cubit.tasks[index].description,
+                                        isDon: cubit.tasks[index].isDon,
+                                        time:cubit.tasks[index].time,
+                                        onChangeUpdateTask: (value) {
+                                          cubit.updateTaskDone(cubit.tasks[index].id,
+                                              value!);
+                                        },
                                       ),
                                     ),
                                 separatorBuilder: (context, index) => SizedBox(
