@@ -3,7 +3,8 @@
 
 
 Welcome to the Task Management App repository! This Flutter app is designed to provide a seamless task management experience, featuring Firebase for authentication and database services.
-#### [Video](https://www.linkedin.com/posts/mohamed-elhalawany-329314220_ecommerce-flutter-dart-activity-7105259895544791040-_FuR?utm_source=share&utm_medium=member_desktop)
+## Demo
+#### [Video](https://drive.google.com/file/d/1YPPqZBbuCBiSv6C8BoY-8lHHCrtUTKBs/view?usp=drive_link)
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -122,6 +123,7 @@ The Controller handles the user input, processes it (by updating the Model if ne
 
 - **lib/controller/**: Contains Cubit classes for state management, handling the business logic and interactions between the Model and the View.
 - **lib/core/helper/**: Includes helper classes such as the bloc observer for tracking application state.
+- 
 
 ## Feedback
 
