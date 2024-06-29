@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,7 @@ import 'package:task_management/core/component/card_task_component.dart';
 import 'package:task_management/core/component/snak_bar_component.dart';
 import 'package:task_management/core/constant/app_constant.dart';
 import 'package:task_management/core/network/local.dart';
+import 'package:task_management/views/logout_screen/logout_screen.dart';
 import 'package:task_management/views/task_details_screen/task_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -33,6 +35,7 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
         return Scaffold(
+
             body: state is LoadingGetAllTasksState||
             state is LoadingDeleteTaskState
                 ? const Center(
@@ -75,7 +78,13 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Image.asset('assets/images/avatar.png'),
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(
+                                          builder:(context) =>
+                                          const LogoutScreen()));
+                                    },
+                                    child: Image.asset('assets/images/avatar.png')),
                               ],
                             ),
                             SizedBox(

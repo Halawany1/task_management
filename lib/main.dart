@@ -29,10 +29,15 @@ void main() async{
   if(CacheHelper.getData(key: App.uId) != null){
     widget= const LayoutScreen();
   }else{
-    widget= const GetStartScreen();
+    if(CacheHelper.getData(key: App.letsStart) != null){
+      widget= const LoginScreen();
+    }else{
+      widget= const GetStartScreen();
+    }
   }
   runApp( MyApp(widget: widget,));
 }
+
 
 class MyApp extends StatelessWidget {
    const MyApp({super.key,

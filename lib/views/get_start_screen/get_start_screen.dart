@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/core/component/default_bottom_component.dart';
+import 'package:task_management/core/constant/app_constant.dart';
+import 'package:task_management/core/network/local.dart';
 import 'package:task_management/views/login_screen/login_screen.dart';
 
 class GetStartScreen extends StatelessWidget {
@@ -54,6 +56,7 @@ class GetStartScreen extends StatelessWidget {
                 height: 30.h,
               ),
               BuildDefaultBottom(onPressed: () {
+                CacheHelper.saveData(key: App.letsStart, value: true);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) =>
                     const LoginScreen(),));
