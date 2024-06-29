@@ -6,8 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/controller/home_cubit/home_cubit.dart';
 import 'package:task_management/core/component/card_task_component.dart';
 import 'package:task_management/core/component/snak_bar_component.dart';
-import 'package:task_management/core/constant/app_constant.dart';
-import 'package:task_management/core/network/local.dart';
 import 'package:task_management/views/task_details_screen/task_details_screen.dart';
 
 class CompleteTaskScreen extends StatelessWidget {
