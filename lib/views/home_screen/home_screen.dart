@@ -23,6 +23,12 @@ class HomeScreen extends StatelessWidget {
               context: context,
               success: true);
         }
+        if (state is SuccessUpdateAllTaskState) {
+          showMessageResponse(
+              message: 'Update Task Successfully',
+              context: context,
+              success: true);
+        }
       },
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
@@ -135,6 +141,7 @@ class HomeScreen extends StatelessWidget {
                                              MaterialPageRoute(builder: (context) =>
                                                  TaskDetailsScreen(title: cubit.tasks[index].title,
                                                      description: cubit.tasks[index].description,
+                                                     id:  cubit.tasks[index].id,
                                                      time: cubit.tasks[index].time,
                                                      isDon: cubit.tasks[index].isDon) ,));
                                        },

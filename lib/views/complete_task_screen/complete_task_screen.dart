@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/controller/home_cubit/home_cubit.dart';
 import 'package:task_management/core/component/card_task_component.dart';
+import 'package:task_management/core/component/snak_bar_component.dart';
 import 'package:task_management/core/constant/app_constant.dart';
 import 'package:task_management/core/network/local.dart';
 import 'package:task_management/views/task_details_screen/task_details_screen.dart';
@@ -14,11 +15,20 @@ class CompleteTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state is SuccessUpdateAllTaskState) {
+          showMessageResponse(
+              message: 'Update Task Successfully',
+              context: context,
+              success: true);
+        }
+      },
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
         return Scaffold(
-            body: state is LoadingGetAllTasksState
+            body: state is LoadingGetAllTasksState ||
+                state is LoadingDeleteTaskState
                 ? const Center(
               child: CircularProgressIndicator(
                 color: Color(0xFFFED36A),
@@ -88,6 +98,7 @@ class CompleteTaskScreen extends StatelessWidget {
                                         TaskDetailsScreen(title: cubit.doneTasks[index].title,
                                             description: cubit.doneTasks[index].description,
                                             time: cubit.doneTasks[index].time,
+                                            id:  cubit.doneTasks[index].id,
                                             isDon: cubit.doneTasks[index].isDon) ,));
                               },
                               child: BuildCardTask(

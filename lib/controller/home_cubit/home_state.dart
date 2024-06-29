@@ -27,4 +27,6 @@ class LoadingDeleteTaskState extends HomeState {}
 
 class SuccessDeleteTaskState extends HomeState {}
 
+class SuccessUpdateAllTaskState extends HomeState {}
+
 class FailedDeleteTaskState extends HomeState {}

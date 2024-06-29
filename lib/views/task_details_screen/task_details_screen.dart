@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_management/core/component/default_bottom_component.dart';
 import 'package:task_management/core/constant/app_constant.dart';
+import 'package:task_management/views/edit_screen/edit_screen.dart';
 
 class TaskDetailsScreen extends StatelessWidget {
   const TaskDetailsScreen({super.key,
@@ -9,10 +10,12 @@ class TaskDetailsScreen extends StatelessWidget {
     required this.description,
     required this.time,
     required this.isDon,
+    required this.id,
   });
   final String title;
   final String description;
   final String time;
+  final String id;
   final bool isDon;
   @override
   Widget build(BuildContext context) {
@@ -65,7 +68,12 @@ class TaskDetailsScreen extends StatelessWidget {
               height: 70.h,
             ),
             BuildDefaultBottom(onPressed: () {
-
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                  EditScreen(
+                    id: id,
+                    title: title,
+                    description: description,
+                  ),));
             }, text: 'Edit Task',),
           ],
         ),
