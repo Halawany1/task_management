@@ -8,6 +8,7 @@ import 'package:task_management/core/component/card_task_component.dart';
 import 'package:task_management/core/component/snak_bar_component.dart';
 import 'package:task_management/core/constant/app_constant.dart';
 import 'package:task_management/core/network/local.dart';
+import 'package:task_management/views/task_details_screen/task_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,12 @@ class HomeScreen extends StatelessWidget {
         if (state is SuccessAddTaskState) {
           showMessageResponse(
               message: 'Add Task Successfully',
+              context: context,
+              success: true);
+        }
+        if (state is SuccessUpdateAllTaskState) {
+          showMessageResponse(
+              message: 'Update Task Successfully',
               context: context,
               success: true);
         }
@@ -128,15 +135,26 @@ class HomeScreen extends StatelessWidget {
                                      onDismissed: (direction) {
                                        cubit.deleteTask(cubit.tasks[index].id);
                                      },
-                                     child: BuildCardTask(
-                                       title: cubit.tasks[index].title,
-                                       description:cubit.tasks[index].description,
-                                       isDon: cubit.tasks[index].isDon,
-                                       time:cubit.tasks[index].time,
-                                       onChangeUpdateTask: (value) {
-                                         cubit.updateTaskDone(cubit.tasks[index].id,
-                                             value!);
+                                     child: GestureDetector(
+                                       onTap: () {
+                                         Navigator.push(context,
+                                             MaterialPageRoute(builder: (context) =>
+                                                 TaskDetailsScreen(title: cubit.tasks[index].title,
+                                                     description: cubit.tasks[index].description,
+                                                     id:  cubit.tasks[index].id,
+                                                     time: cubit.tasks[index].time,
+                                                     isDon: cubit.tasks[index].isDon) ,));
                                        },
+                                       child: BuildCardTask(
+                                         title: cubit.tasks[index].title,
+                                         description:cubit.tasks[index].description,
+                                         isDon: cubit.tasks[index].isDon,
+                                         time:cubit.tasks[index].time,
+                                         onChangeUpdateTask: (value) {
+                                           cubit.updateTaskDone(cubit.tasks[index].id,
+                                               value!);
+                                         },
+                                       ),
                                      ),
                                    ),
                                separatorBuilder: (context, index) => SizedBox(
