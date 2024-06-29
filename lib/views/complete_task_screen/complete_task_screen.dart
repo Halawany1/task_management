@@ -7,6 +7,7 @@ import 'package:task_management/controller/home_cubit/home_cubit.dart';
 import 'package:task_management/core/component/card_task_component.dart';
 import 'package:task_management/core/constant/app_constant.dart';
 import 'package:task_management/core/network/local.dart';
+import 'package:task_management/views/task_details_screen/task_details_screen.dart';
 
 class CompleteTaskScreen extends StatelessWidget {
   const CompleteTaskScreen({super.key});
@@ -80,15 +81,25 @@ class CompleteTaskScreen extends StatelessWidget {
                             onDismissed: (direction) {
                               cubit.deleteTask(cubit.doneTasks[index].id);
                             },
-                            child: BuildCardTask(
-                              title: cubit.doneTasks[index].title,
-                              description:cubit.doneTasks[index].description,
-                              isDon: cubit.doneTasks[index].isDon,
-                              time:cubit.doneTasks[index].time,
-                              onChangeUpdateTask: (value) {
-                                cubit.updateTaskDone(cubit.doneTasks[index].id,
-                                    value!);
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                        TaskDetailsScreen(title: cubit.doneTasks[index].title,
+                                            description: cubit.doneTasks[index].description,
+                                            time: cubit.doneTasks[index].time,
+                                            isDon: cubit.doneTasks[index].isDon) ,));
                               },
+                              child: BuildCardTask(
+                                title: cubit.doneTasks[index].title,
+                                description:cubit.doneTasks[index].description,
+                                isDon: cubit.doneTasks[index].isDon,
+                                time:cubit.doneTasks[index].time,
+                                onChangeUpdateTask: (value) {
+                                  cubit.updateTaskDone(cubit.doneTasks[index].id,
+                                      value!);
+                                },
+                              ),
                             ),
                           ),
                           separatorBuilder: (context, index) => SizedBox(
