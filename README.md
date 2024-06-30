@@ -22,7 +22,7 @@ The Task Management App is a Flutter-based application that leverages Firebase f
 
 ## Features
 
-- **Firebase Authentication:**  Implements user authentication functionalities such as Sign In, Sign Up, Change Password, and Profile updates using Firebase Authentication.
+- **Firebase Authentication:**  Implements user authentication functionalities such as Sign In and Sign Up using Firebase Authentication.
 - 
 - **Task Management:** Allows users to create, update, delete, and manage tasks, stored securely in Firebase Firestore.
 
