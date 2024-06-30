@@ -23,7 +23,7 @@ The Task Management App is a Flutter-based application that leverages Firebase f
 ## Features
 
 - **Firebase Authentication:**  Implements user authentication functionalities such as Sign In and Sign Up using Firebase Authentication.
-- 
+  
 - **Task Management:** Allows users to create, update, delete, and manage tasks, stored securely in Firebase Firestore.
 
 - **Professionally Shared Preferences:** Securely stores user data and preferences using shared preferences, ensuring a professional and reliable data storage solution.
@@ -123,7 +123,7 @@ The Controller handles the user input, processes it (by updating the Model if ne
 
 - **lib/controller/**: Contains Cubit classes for state management, handling the business logic and interactions between the Model and the View.
 - **lib/core/helper/**: Includes helper classes such as the bloc observer for tracking application state.
-- 
+  
 
 ## Feedback
 
